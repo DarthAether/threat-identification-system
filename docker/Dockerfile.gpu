@@ -1,0 +1,79 @@
+# ---------------------------------------------------------------------------
+# Threat Identification System — GPU Build (CUDA 12.1)
+# Multi-stage build with NVIDIA CUDA runtime
+# ---------------------------------------------------------------------------
+
+# ---- Stage 1: Builder ----
+FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04 AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-dev \
+        python3.11-venv \
+        python3-pip \
+        build-essential \
+        gcc \
+        g++ \
+        libffi-dev \
+        libpq-dev \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Make python3.11 the default python
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
+
+WORKDIR /build
+
+COPY pyproject.toml ./
+COPY src/ ./src/
+
+RUN python -m pip install --no-cache-dir --prefix=/install .
+
+# ---- Stage 2: Runtime ----
+FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04 AS runtime
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+LABEL maintainer="DarthAether"
+LABEL org.opencontainers.image.source="https://github.com/DarthAether/threat-identification-system"
+LABEL org.opencontainers.image.description="Threat Identification System — GPU Runtime (CUDA 12.1)"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-venv \
+        libgl1 \
+        libglib2.0-0 \
+        libpq5 \
+        curl \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
+    && update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed Python packages from builder
+COPY --from=builder /install /usr/local
+
+# Create non-root user
+RUN groupadd --system app && \
+    useradd --system --gid app --create-home app
+
+WORKDIR /app
+
+# Copy application source
+COPY --chown=app:app src/ ./src/
+COPY --chown=app:app pyproject.toml ./
+
+USER app
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+CMD ["python", "-m", "threat_id"]

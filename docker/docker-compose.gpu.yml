@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# Threat Identification System — GPU Override
+# Usage: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
+# ---------------------------------------------------------------------------
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

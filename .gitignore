@@ -1,0 +1,90 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+*.whl
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ── Virtual Environments ─────────────────────────────────────────────────────
+.venv/
+venv/
+ENV/
+env/
+
+# ── Testing ──────────────────────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.tox/
+.nox/
+
+# ── Type Checking / Linting ──────────────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# ── IDE ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ── Docker ───────────────────────────────────────────────────────────────────
+docker-compose.override.yml
+
+# ── Environment ──────────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── ML Artifacts ─────────────────────────────────────────────────────────────
+models/*.pt
+models/*.onnx
+models/*.engine
+models/*.trt
+*.weights
+runs/
+wandb/
+
+# ── Data ─────────────────────────────────────────────────────────────────────
+data/
+datasets/
+!data/.gitkeep
+
+# ── Node (if frontend tooling is used) ───────────────────────────────────────
+node_modules/
+package-lock.json
+yarn.lock
+
+# ── OS Files ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Misc ─────────────────────────────────────────────────────────────────────
+*.bak
+*.tmp
+*.temp
