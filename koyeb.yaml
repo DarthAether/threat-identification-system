@@ -1,0 +1,16 @@
+name: threatsight-demo
+type: web
+buildpack:
+  type: python
+  python_version: "3.11"
+  build_command: pip install -r demo/requirements.txt
+  run_command: cd demo && uvicorn api:app --host 0.0.0.0 --port 8000
+ports:
+  - port: 8000
+    protocol: http
+health_checks:
+  - path: /health
+    port: 8000
+env:
+  - key: DEMO_MODE
+    value: "true"
