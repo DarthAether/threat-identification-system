@@ -33,7 +33,7 @@ dependencies = [
     # ML — Recognition
     "deepface>=0.0.89",
     # Computer Vision
-    "opencv-python-headless>=4.9",
+    "opencv-python-headless>=4.13.0.92",
     "numpy>=1.26",
     # Observability
     "structlog>=24.1",
