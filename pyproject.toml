@@ -45,7 +45,7 @@ dependencies = [
 
 [project.optional-dependencies]
 gpu = [
-    "onnxruntime-gpu>=1.17",
+    "onnxruntime-gpu>=1.24.4",
 ]
 dev = [
     "ruff>=0.4",
