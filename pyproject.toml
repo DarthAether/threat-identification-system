@@ -21,7 +21,7 @@ dependencies = [
     "redis>=5.0",
     # Configuration
     "pydantic>=2.6",
-    "pydantic-settings>=2.2",
+    "pydantic-settings>=2.13.1",
     # Security
     "python-jose[cryptography]>=3.3",
     "passlib[bcrypt]>=1.7",
