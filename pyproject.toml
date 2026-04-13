@@ -26,7 +26,7 @@ dependencies = [
     "python-jose[cryptography]>=3.3",
     "passlib[bcrypt]>=1.7",
     # ML — Detection
-    "torch>=2.2",
+    "torch>=2.11.0",
     "torchvision>=0.17",
     "ultralytics>=8.1",
     "onnxruntime>=1.17",
